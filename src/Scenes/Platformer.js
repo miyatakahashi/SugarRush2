@@ -67,7 +67,7 @@ class Platformer extends Phaser.Scene {
         }
         if (my.sprite.player.y > this.map.heightInPixels + 100) {
             this.gameWon = true; 
-            this.scene.start("GameOver", { won: false, coinCount: this.coinsCollected });
+            this.scene.start("GameOver", { won: false, coinCount: this.coinsCollected, level: this.level });
         }
         if (Phaser.Input.Keyboard.JustDown(this.rKey)) {
             this.scene.start("Platformer", { level: this.level });
@@ -143,7 +143,7 @@ class Platformer extends Phaser.Scene {
         if (this.coinsCollected >= this.totalCoins) {
             this.gameWon = true;
             this.time.delayedCall(500, () => {
-                this.scene.start("GameOver", { won: true, coinCount: this.coinsCollected });
+                this.scene.start("GameOver", { won: true, coinCount: this.coinsCollected, level: this.level });
             });
         }
     }

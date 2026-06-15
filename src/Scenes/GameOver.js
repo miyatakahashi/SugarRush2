@@ -5,11 +5,11 @@ class GameOver extends Phaser.Scene {
     }
 
     create(data) {
-        // data.won tells us whether the player won (true) or lost (false)
         this.won = data.won || false;
         this.coinCount = data.coinCount || 0;
+        this.level = data.level || 1;  
 
-      this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x1a1a2e, 1).setOrigin(0);
+        this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x1a1a2e, 1).setOrigin(0);
         let centerX = this.scale.width / 2;
         let centerY = this.scale.height / 2;
 
@@ -32,7 +32,7 @@ class GameOver extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.restartKey)) {
-            this.scene.start("Platformer", { level: 1 });        }
+            this.scene.start("Platformer", { level: this.level });        }
     }
 
     
