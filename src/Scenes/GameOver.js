@@ -1,6 +1,4 @@
-// Game Over Scene — Displays the final result screen after the Platformer scene ends.
-// Shows a win screen with coin count, or a loss screen (currently unreachable).
-// Pressing R restarts the Platformer scene.
+
 class GameOver extends Phaser.Scene {
     constructor() {
         super("GameOver");
@@ -11,10 +9,7 @@ class GameOver extends Phaser.Scene {
         this.won = data.won || false;
         this.coinCount = data.coinCount || 0;
 
-        // ── Dark background covering the full viewport ──
-        // Use the game's configured width/height since worldView may not be set yet in create()
       this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x1a1a2e, 1).setOrigin(0);
-        // Center coordinates for placing text elements
         let centerX = this.scale.width / 2;
         let centerY = this.scale.height / 2;
 
@@ -24,12 +19,8 @@ class GameOver extends Phaser.Scene {
             this.showLossScreen(centerX, centerY);
         }
 
-        // ── Restart input ──
-        // R key restarts the Platformer scene regardless of win/loss
         this.restartKey = this.input.keyboard.addKey("R");
 
-        // ── Blinking restart prompt ──
-        // Uses a yoyo alpha tween: 600ms fade out, then reverse, infinite repeat
         this.tweens.add({
             targets: this.restartText,
             alpha: { from: 1, to: 0 },
@@ -40,18 +31,15 @@ class GameOver extends Phaser.Scene {
     }
 
     update() {
-        // Restart the Platformer scene when R is pressed
         if (Phaser.Input.Keyboard.JustDown(this.restartKey)) {
             this.scene.start("Platformer", { level: 1 });        }
     }
 
-    // ── Win Screen Layout ──
-    // Title, coin count, level subtitle, and restart prompt
+    
     showWinScreen(centerX, centerY) {
-        // Pink background to match title screen
+       
         this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0xffd6e0).setOrigin(0);
 
-        // Donut emoji top
         this.add.text(centerX, centerY - 160, "🍩", {
             fontSize: 72
         }).setOrigin(0.5);
@@ -65,7 +53,6 @@ class GameOver extends Phaser.Scene {
             strokeThickness: 6
         }).setOrigin(0.5);
 
-        // Coin count
         this.add.text(centerX, centerY + 10, `🍬 You collected ${this.coinCount} coins! 🍬`, {
             fontSize: 28,
             color: "#ff1493",
@@ -73,7 +60,6 @@ class GameOver extends Phaser.Scene {
             strokeThickness: 4
         }).setOrigin(0.5);
 
-        // Level subtitle
         this.add.text(centerX, centerY + 55, "- Level Donut Fall -", {
             fontSize: 22,
             color: "#cc3377",
@@ -81,7 +67,6 @@ class GameOver extends Phaser.Scene {
             strokeThickness: 3
         }).setOrigin(0.5);
 
-        // Restart prompt
         this.restartText = this.add.text(centerX, centerY + 120, "🎀 Press R to play again 🎀", {
             fontSize: 24,
             color: "#ffffff",
@@ -90,8 +75,6 @@ class GameOver extends Phaser.Scene {
         }).setOrigin(0.5);
     }
 
-    // ── Loss Screen Layout ──
-    // Currently unreachable — no in-game event triggers won: false
     showLossScreen(centerX, centerY) {
         this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0xffd6e0).setOrigin(0);
 

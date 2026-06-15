@@ -4,11 +4,12 @@ class LevelTransition extends Phaser.Scene {
     }
 
     create(data) {
+        this.coinCount = data.coinCount || 0;
+        
         let centerX = this.scale.width / 2;
         let centerY = this.scale.height / 2;
 
         this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0xffd6e0).setOrigin(0);
-
         this.add.text(centerX, centerY - 100, "🍩", { fontSize: 72 }).setOrigin(0.5);
 
         this.add.text(centerX, centerY - 20, "Level 1 Complete!", {
@@ -19,7 +20,7 @@ class LevelTransition extends Phaser.Scene {
             strokeThickness: 6
         }).setOrigin(0.5);
 
-        this.add.text(centerX, centerY + 50, `Coins collected: ${data.coinCount || 0}`, {
+        this.add.text(centerX, centerY + 50, `Coins collected: ${this.coinCount}`, {
             fontSize: 26,
             color: "#cc3377",
             stroke: "#000000",
@@ -41,8 +42,18 @@ class LevelTransition extends Phaser.Scene {
             repeat: -1
         });
 
-        this.input.keyboard.once("keydown-SPACE", () => {
-            this.scene.start("Platformer", { level: 2 });
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.ready = false;
+
+
+        this.time.delayedCall(300, () => {
+            this.ready = true;
         });
+    }
+
+    update() {
+        if (this.ready && Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
+            this.scene.start("Platformer", { level: 2 });
+        }
     }
 }
