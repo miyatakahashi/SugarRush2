@@ -17,8 +17,8 @@ let config = {
     },
     width: 1440,
     height: 900,
-    scene: [Load, Title, Platformer, GameOver]};
-
+    scene: [Load, Title, Platformer, LevelTransition, GameOver]
+};
 var cursors;
 const SCALE = 2.0;
 var my = { sprite: {}, text: {}, vfx: {} };

@@ -98,7 +98,8 @@ class Platformer extends Phaser.Scene {
     // objects — createLayer needs Tileset objects (not string keys) when
     // a layer uses multiple tilesets.
     loadTilemap() {
-        const map = this.add.tilemap("platformer-level-1");
+        const levelKey = this.scene.settings.data?.level === 2 ? "platformer-level-2" : "platformer-level-1";
+        const map = this.add.tilemap(levelKey);
         const foodTileset = map.addTilesetImage("kenny_food_packed", "food_tilemap_tiles");
         const tilemapTileset = map.addTilesetImage("kenny_tilemap_packed", "tilemap_tiles");
         return { map, foodTileset, tilemapTileset };
@@ -177,7 +178,11 @@ class Platformer extends Phaser.Scene {
         this.sound.play("coin");
         this.gameWon = true;
         this.time.delayedCall(300, () => {
-            this.scene.start("GameOver", { won: true, coinCount: this.coinsCollected });
+            if (this.scene.settings.data?.level === 2) {
+                this.scene.start("GameOver", { won: true, coinCount: this.coinsCollected });
+            } else {
+                this.scene.start("LevelTransition", { coinCount: this.coinsCollected });
+            }
         });
     }
 

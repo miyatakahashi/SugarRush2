@@ -42,8 +42,7 @@ class GameOver extends Phaser.Scene {
     update() {
         // Restart the Platformer scene when R is pressed
         if (Phaser.Input.Keyboard.JustDown(this.restartKey)) {
-            this.scene.start("Platformer");
-        }
+            this.scene.start("Platformer", { level: 1 });        }
     }
 
     // ── Win Screen Layout ──
