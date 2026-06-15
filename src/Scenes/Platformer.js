@@ -3,11 +3,10 @@ class Platformer extends Phaser.Scene {
     constructor() {
         super("Platformer");
     }
-    init(data) {
-        this.level = data.level || 1;
-    }
-    create() {
-        
+    
+    create(data) {
+        this.level = (data && data.level) ? data.level : 1;
+
         const { map, foodTileset, tilemapTileset } = this.loadTilemap();
         this.map = map;
         const groundLayer = map.createLayer("Ground-n-Platforms", [foodTileset, tilemapTileset]);
@@ -81,15 +80,18 @@ class Platformer extends Phaser.Scene {
 
     
     loadTilemap() {
-        const levelKey =
-            this.level === 2
-                ? "platformer-level-2"
-                : "platformer-level-1";
-
+        const levelKey = this.level === 2 ? "platformer-level-2" : "platformer-level-1";
         console.log("Loading:", levelKey);
+        
         const map = this.add.tilemap(levelKey);
+        console.log("Map created:", map);
+        
         const foodTileset = map.addTilesetImage("kenny_food_packed", "food_tilemap_tiles");
+        console.log("foodTileset:", foodTileset);
+        
         const tilemapTileset = map.addTilesetImage("kenny_tilemap_packed", "tilemap_tiles");
+        console.log("tilemapTileset:", tilemapTileset);
+
         return { map, foodTileset, tilemapTileset };
     }
 
@@ -295,7 +297,7 @@ class Platformer extends Phaser.Scene {
             speedX: { min: -60, max: 60 },
             speedY: { min: -40, max: 0 },
             emitting: false 
-        } );
+        });
     }
 
     emitJumpBurst(player) {
